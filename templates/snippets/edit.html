@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}編集 | {{ block.super }}{% endblock %}
+
+{% block main %}
+<h2>スニペットの編集</h2>
+<form method="post">
+  {% csrf_token %}
+  <p>
+    <label for="title">タイトル</label>
+    <input id="title" type="text" name="title" value="{{ form.title.value }}" required>
+  </p>
+  <p>
+    <label for="code">コード</label>
+    <textarea name="code" id="code" rows="5">{{ form.code.value }}</textarea>
+  </p>
+  <p>
+    <label for="description">説明</label>
+    <textarea name="description" id="description" rows="5">{{ form.description.value }}</textarea>
+  </p>
+  <button type="submit">保存</button>
+</form>
+{% endblock %}

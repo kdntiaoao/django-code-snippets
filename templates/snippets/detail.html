@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}{{ snippet.title }} | {{ block.super }}{% endblock %}
+
+{% block main %}
+<p><a href="{% url 'top' %}">＜一覧に戻る</a></p>
+<h2>{{ snippet.title }} by {{ snippet.created_by.username }}</h2>
+<small>投稿日：{{ snippet.created_at }}</small>
+{% if user.is_authenticated and snippet.created_by_id == user.id %}
+<a href="{% url 'snippets:edit' snippet.id %}">編集</a>
+<a href="{% url 'snippets:delete' snippet.id %}">削除</a>
+{% endif %}
+<pre><code>{{ snippet.code }}</code>
+</pre>
+<p>{{ snippet.description }}</p>
+
+<article>
+  <h3>コメント一覧</h3>
+  {% if comments %}
+  {% for comment in comments %}
+  <p>
+    <div>{{ comment.text }}</div>
+    <small>by {{ comment.commented_by.username }}さん {{ comment.commented_at }}</small>
+  </p>
+  {% endfor %}
+  {% else %}
+  <p>コメントはありません。</p>
+  {% endif %}
+  {% if user.is_authenticated %}
+  <form method="post" style="margin-top: 20px;">
+    {% csrf_token %}
+    <h3>コメントを投稿する</h3>
+    <p>
+      <textarea id="{{ form.text.id_for_label }}" name="{{ form.text.html_name }}" rows="5"></textarea>
+    </p>
+    <button type="submit">投稿</button>
+  </form>
+  {% endif %}
+</article>
+{% endblock %}

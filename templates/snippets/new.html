@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}投稿 | {{ block.super }}{% endblock %}
+
+{% block main %}
+<h2>スニペットの登録</h2>
+<form method="post">
+  {% csrf_token %}
+  <p>
+    <label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
+    <input id="{{ form.title.id_for_label }}" type="text" name="{{ form.title.html_name }}" required>
+  </p>
+  <p>
+    <label for="{{ form.code.id_for_label }}">{{ form.code.label }}</label>
+    <code>
+      <textarea id="{{ form.code.id_for_label }}" name="{{ form.code.html_name }}" rows="5"></textarea>
+    </code>
+  </p>
+  <p>
+    <label for="{{ form.description.id_for_label }}">{{ form.description.label }}</label>
+    <textarea id="{{ form.description.id_for_label }}" name="{{ form.description.html_name }}" rows="5"></textarea>
+  </p>
+  <button type="submit">登録</button>
+</form>
+{% endblock %}
